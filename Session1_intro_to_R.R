@@ -311,11 +311,11 @@ iris[2, 1]
 #' `iris[1, ]`
 iris[1, ]
 
-#' *All species values *  
+#' *All species values*  
 #' `iris[, "Species"]`
 iris[, "Species"]
 
-#' *The first 5 species and Sepal.Width values *  
+#' *The first 5 species and Sepal.Width values*  
 #' `iris[1:5, c("Species", "Sepal.Width")]`
 iris[1:5, c("Species", "Sepal.Width")]
 

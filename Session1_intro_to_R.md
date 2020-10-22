@@ -490,7 +490,7 @@ output:
 ## 1          5.1         3.5          1.4         0.2  setosa
 ```
 
-*All species values *  
+*All species values*  
 `iris[, "Species"]`
 
 
@@ -523,7 +523,7 @@ output:
 ## Levels: setosa versicolor virginica
 ```
 
-*The first 5 species and Sepal.Width values *  
+*The first 5 species and Sepal.Width values*  
 `iris[1:5, c("Species", "Sepal.Width")]`
 
 
