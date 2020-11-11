@@ -11,9 +11,9 @@
 
 <meta name="author" content="Michelle Clements" />
 
-<meta name="date" content="2020-10-22" />
+<meta name="date" content="2020-11-11" />
 
-<title>Crash course in R: Session 1 - intro to R</title>
+<title>Crash course in R: Session 2 - intro to tidyverse</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -376,496 +376,395 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Crash course in R: Session 1 - intro to R</h1>
+<h1 class="title toc-ignore">Crash course in R: Session 2 - intro to tidyverse</h1>
 <h4 class="author">Michelle Clements</h4>
-<h4 class="date">2020-10-22</h4>
+<h4 class="date">2020-11-11</h4>
 
 </div>
 
 
-<div id="part-1-r-overview" class="section level1">
-<h1>Part 1: R overview</h1>
-<div id="rstudio" class="section level3">
-<h3>1.1 RStudio</h3>
+<div id="part-1-last-session-recap" class="section level1">
+<h1>Part 1: Last session recap</h1>
 <ul>
-<li>The four windows in RStudio<br />
+<li>RStudio<br />
 </li>
-<li>Help &amp; ?<br />
+<li>Vectors<br />
 </li>
-<li>Cheatsheets<br />
+<li>Square brackets to subset<br />
 </li>
-<li>Tools -&gt; Global Options -&gt; Save data to R workspace on exit -&gt; Never</li>
+<li>Functions - inbuilt (e.g. mean()) &amp; user generated<br />
+</li>
+<li>Datasets<br />
+</li>
+<li>$ sign as a short cut for vectors in datasets</li>
 </ul>
 </div>
-<div id="running-r" class="section level3">
-<h3>1.2 Running R</h3>
+<div id="do-bigger-animals-sleep-more" class="section level1">
+<h1>Do bigger animals sleep more?</h1>
 <ul>
-<li>R can be used as a calculator in the console.<br />
+<li>We will use an inbuilt dataset, msleep, and tidyverse<br />
 </li>
-<li>R code normally goes in in a savable script (open new: file -&gt; new file -&gt; R script or ctrl-shift-N).<br />
+<li>This session is data manipulation and summaries<br />
 </li>
-<li>Submitting code from R script using Run button or ctrl-Enter.<br />
-</li>
-<li>No highlighting submits current line.<br />
-</li>
-<li>Highlight to submit more than one line of code.<br />
-</li>
-<li>Ctrl-alt-b: submit from beginning to current position.<br />
-</li>
-<li>Ctrl-alt-e: submit from current position to end.<br />
-</li>
-<li>Looking at previous code using up button in console.</li>
-<li>History tab shows you previous submitted code.</li>
-<li>Restart R session and clear everything: ctrl-shift-F10.<br />
-</li>
-<li>Comments use <code>#</code> in front of text (highlight code and ctrl-shift-C to comment out a block).</li>
+<li>Next session is graphs</li>
 </ul>
 </div>
-</div>
-<div id="part-2-vectors" class="section level1">
-<h1>Part 2: Vectors</h1>
-<div id="vector-introduction" class="section level3">
-<h3>2.1 Vector introduction</h3>
+<div id="part-2-set-up" class="section level1">
+<h1>Part 2: Set up</h1>
+<div id="installing-packages" class="section level3">
+<h3>2.1 Installing packages</h3>
 <ul>
-<li>Vectors are bounded with <code>c()</code> (I say ‘concatenate’) and commas between values<br />
+<li>Install tidyverse with packages -&gt; install or <code>install.packages(&quot;tidyverse&quot;)</code><br />
 </li>
-<li>It’s good practice to put spaces after commas<br />
+<li>Look at tidyverse on CRAN<br />
 </li>
-<li>Assign a vector using <code>&lt;-</code> (‘gets’)<br />
-</li>
-<li>Assigned vectors appear in the Environment pane</li>
+<li>Use the package devtools to install from github</li>
+<li>Use install_version in devtools to install an old version</li>
 </ul>
-<p><em>Enter a single vector</em></p>
-<p><code>c(1, 2, 3, 4)</code></p>
-<pre><code>## [1] 1 2 3 4</code></pre>
-<p><em>Assign previous vector to x</em><br />
-<code>x &lt;- c(1, 2, 3, 4)</code></p>
-<p><em>Can also use <code>seq()</code></em><br />
-<code>x &lt;- seq(4)</code></p>
-<p><em>Look at contents of x</em></p>
-<p><code>x</code></p>
-<pre><code>## [1] 1 2 3 4</code></pre>
 </div>
-<div id="basic-operations-on-vectors" class="section level3">
-<h3>2.2 Basic operations on vectors</h3>
+<div id="initial-set-up" class="section level3">
+<h3>2.2 Initial set-up</h3>
 <ul>
-<li>Basic operations apply to each component of a vector.</li>
-<li>Components of vectors can be added etc. Makes most sense if vectors are the same length.<br />
+<li>Ctrl-shift-N to open new script<br />
 </li>
-<li>Warning: R will add anyway lengths are not equal (not recommended!)</li>
+<li>Load a package using library. good practice to put afterwards what it’s for<br />
+</li>
+<li><code>setwd()</code> to set working directory (same as global in Stata)<br />
+</li>
+<li>Note that file paths need forward slashes<br />
+</li>
+<li>Navigate to wd using files -&gt; More -&gt; go to working directory<br />
+</li>
+<li>Read in datafiles - we won’t do this here but it’s covered at the bottom<br />
+</li>
+<li>Instead we’ll assign msleep to msleep</li>
 </ul>
-<p><em>Add one to each component</em><br />
-<code>x + 1</code></p>
-<pre><code>## [1] 2 3 4 5</code></pre>
-<p><em>Divide each component by 2</em><br />
-<code>x / 2</code></p>
-<pre><code>## [1] 0.5 1.0 1.5 2.0</code></pre>
-<p><em>Add the same position components together</em><br />
-<code>x + x</code></p>
-<pre><code>## [1] 2 4 6 8</code></pre>
-<p><em>Add one to odd numbers and 2 to even numbers (I don’t recommend this!)</em><br />
-<code>x + c(1, 2)</code></p>
-<pre><code>## [1] 2 4 4 6</code></pre>
-<p><em>R will try even if vector lengths aren’t multiples of each other (I definitely don’t recommend this!)</em><br />
-<code>x + c(1, 2, 3)</code></p>
-<pre><code>## Warning in x + c(1, 2, 3): longer object length is not a multiple of shorter
-## object length</code></pre>
-<pre><code>## [1] 2 4 6 5</code></pre>
+<p><em>Load tidyverse</em></p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages ------ tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.1     v purrr   0.3.4
+## v tibble  3.0.1     v dplyr   1.0.0
+## v tidyr   1.1.0     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.5.0</code></pre>
+<pre><code>## -- Conflicts --------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p><em>Set working directory</em></p>
+<pre class="r"><code>setwd(&quot;C:/&quot;)</code></pre>
+<p><em>Get datafiles</em></p>
+<pre class="r"><code>msleep &lt;- msleep</code></pre>
+<p><em>Have a quick look with <code>glimpse()</code></em></p>
+<pre class="r"><code>glimpse(msleep)</code></pre>
+<pre><code>## Rows: 83
+## Columns: 11
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater s...
+## $ genus        &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;...
+## $ vore         &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;c...
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;...
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;d...
+## $ sleep_total  &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0...
+## $ sleep_rem    &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0....
+## $ sleep_cycle  &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333...
+## $ awake        &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0...
+## $ brainwt      &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000...
+## $ bodywt       &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0...</code></pre>
 </div>
-<div id="vector-types" class="section level3">
-<h3>2.3 Vector types</h3>
+</div>
+<div id="part-3-data-manipulation" class="section level1">
+<h1>Part 3: Data manipulation</h1>
+<div id="datasets-in-tidyverse" class="section level3">
+<h3>3.1 Datasets in tidyverse</h3>
 <ul>
-<li>logical: T/F. <code>c(TRUE, FALSE, F, F, T)</code></li>
-<li>integer: <code>c(1, 2, 3, 4)</code><br />
+<li>Datasets in tidyverse are called <code>tribbles</code></li>
+<li>Tribbles are just a type of dataframe<br />
 </li>
-<li>double: <code>c(1.5, 2, 3)</code><br />
+<li>Characters are never factors unless specified<br />
 </li>
-<li>character: <code>c(&quot;dog&quot;, &quot;cat&quot;, &quot;horse&quot;)</code>
-<ul>
-<li>factors are character vectors with order information. We’ll come back to these<br />
-</li>
-</ul></li>
-<li>a vector can only contain one of the above<br />
-</li>
-<li>use class() to find out what your vector is<br />
-</li>
-<li>use length() to find out what length your vector is</li>
+<li>I recommend keeping things in tribbles and not as random vectors - things are less likely to go wrong this way</li>
 </ul>
-<p><code>class(x)</code></p>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<p><code>length(x)</code></p>
-<pre><code>## [1] 4</code></pre>
 </div>
-<div id="subsetting-vectors" class="section level3">
-<h3>2.4 Subsetting vectors</h3>
+<div id="verbs-for-data-manipulation" class="section level3">
+<h3>3.2 Verbs for data manipulation</h3>
 <ul>
-<li>use square brackets <code>[]</code> to get part of a vector</li>
-<li>I call <code>[]</code> ‘where’</li>
+<li><code>select()</code> to select variables/columns (keep in Stata)<br />
+</li>
+<li><code>filter()</code> to select rows (keep if in Stata)<br />
+</li>
+<li><code>rename()</code> to rename columns (newname = oldname)<br />
+</li>
+<li><code>mutate()</code> to create or alter new variables (gen and replace in Stata)<br />
+</li>
+<li><code>arrange()</code> to sort</li>
 </ul>
-<p><em>Using just numbers returns the value at the associated position</em></p>
-<p><code>x[2]</code></p>
-<pre><code>## [1] 2</code></pre>
-<p><em>Use <code>[]</code> and <code>:</code> to get sequential parts</em></p>
-<p><code>x[2:3]</code></p>
-<pre><code>## [1] 2 3</code></pre>
-<p><em>Use <code>[]</code> and <code>c()</code> to get non-sequential parts</em></p>
-<p><code>x[c(2, 4)]</code></p>
-<pre><code>## [1] 2 4</code></pre>
-<p><em>Use <code>==</code>, <code>|</code> (OR), <code>&amp;</code> (AND), <code>%in%</code>, <code>&gt;</code>, <code>&lt;</code>, to test if vector contains specific values</em></p>
-<p><code>x == 4</code></p>
-<pre><code>## [1] FALSE FALSE FALSE  TRUE</code></pre>
-<p><em>Add in <code>[]</code> (where) to return the values</em></p>
-<p><code>x[x == 4]</code></p>
-<pre><code>## [1] 4</code></pre>
-<p><em>Use <code>|</code> for OR</em><br />
-<code>x[x == 4 | x == 3]</code></p>
-<pre><code>## [1] 3 4</code></pre>
-<p><em>Use <code>&amp;</code> and inequalities</em><br />
-<code>x[x &gt; 2 &amp; x &lt;= 4]</code></p>
-<pre><code>## [1] 3 4</code></pre>
-<p><em>Use %in% for multiple values</em><br />
-<code>x[x %in% c(1, 3)]</code></p>
-<pre><code>## [1] 1 3</code></pre>
-<p><em>Use <code>!</code> to denote ‘not’</em><br />
-<code>x[x != 4]</code></p>
-<pre><code>## [1] 1 2 3</code></pre>
-<p><code>x[!x == 4]</code></p>
-<pre><code>## [1] 1 2 3</code></pre>
 </div>
-<div id="summarising-vectors" class="section level3">
-<h3>2.5 Summarising vectors</h3>
-<p><code>mean(x)</code></p>
-<pre><code>## [1] 2.5</code></pre>
-<p><code>sum(x)</code></p>
-<pre><code>## [1] 10</code></pre>
-<p><code>min(x)</code></p>
-<pre><code>## [1] 1</code></pre>
-<p><code>quantile(x, 0.5)</code></p>
-<pre><code>## 50% 
-## 2.5</code></pre>
-<p><code>sd(x)</code></p>
-<pre><code>## [1] 1.290994</code></pre>
-<p><code>summary(x)</code></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    1.75    2.50    2.50    3.25    4.00</code></pre>
-<p><code>table(x)</code></p>
-<pre><code>## x
-## 1 2 3 4 
-## 1 1 1 1</code></pre>
-</div>
-<div id="missing-values" class="section level3">
-<h3>2.6 Missing values</h3>
+<div id="manipulating-msleep-the-long-way" class="section level3">
+<h3>3.3 Manipulating msleep the long way</h3>
+<p>We are going to create a dataset:</p>
 <ul>
-<li>Missing values in R are denoted by <code>NA</code><br />
+<li>Keep only rodents in rows (order is Rodentia)</li>
+<li>Keep only columns of name, vore, sleep_total and bodywt</li>
+<li>Make vore into longform<br />
 </li>
-<li><code>NA</code> isn’t an integer, double, character or T/F, it’s just <code>NA</code></li>
-<li>Can use <code>is.na()</code> or <code>!is.na()</code> to look for <code>NA</code> values</li>
+<li>Delete vore<br />
+</li>
+<li>Rename bodywt to body_weight<br />
+</li>
+<li>Arrange by body_weight</li>
 </ul>
-<p><em>Create y as x with an NA added on</em><br />
-<code>y &lt;- c(x, NA)</code><br />
-<code>y</code></p>
-<pre><code>## [1]  1  2  3  4 NA</code></pre>
-<p><code>y[is.na(y)]</code></p>
-<pre><code>## [1] NA</code></pre>
-<p><code>y[!is.na(y)]</code></p>
-<pre><code>## [1] 1 2 3 4</code></pre>
-<p><em>Operations on numerics return a missing if there’s one or more NA in the vector</em></p>
-<p><code>mean(y)</code></p>
-<pre><code>## [1] NA</code></pre>
-<p><em>Use <code>na.rm = T</code> to ignore missing values</em><br />
-<code>mean(y, na.rm = T)</code></p>
-<pre><code>## [1] 2.5</code></pre>
-<p><em><code>summary()</code> works with missing values</em><br />
-<code>summary(y)</code></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-##    1.00    1.75    2.50    2.50    3.25    4.00       1</code></pre>
-<p><em><code>table()</code> needs to be told to include missing values</em><br />
-<code>table(y)</code></p>
-<pre><code>## y
-##    1    2    3    4 &lt;NA&gt; 
-##    1    1    1    1    1</code></pre>
+<pre class="r"><code>rodents &lt;- filter(msleep, order == &quot;Rodentia&quot;)
+
+rodents &lt;- select(rodents, &quot;name&quot;, &quot;vore&quot;, &quot;sleep_total&quot;, &quot;bodywt&quot;)
+
+rodents &lt;- mutate(rodents, 
+                  vore_long = ifelse(is.na(vore), NA, paste0(vore, &quot;vore&quot;)))
+
+rodents &lt;- select(rodents, - vore)
+
+rodents &lt;- rename(rodents, body_weight = bodywt)  
+
+rodents &lt;- arrange(rodents, body_weight)</code></pre>
 </div>
-</div>
-<div id="part-3-a-quick-glimpse-of-functions" class="section level1">
-<h1>Part 3: A quick glimpse of functions</h1>
-<div id="functions-introduction" class="section level3">
-<h3>3.1 Functions introduction</h3>
+<div id="piping" class="section level3">
+<h3>3.4 Piping</h3>
 <ul>
-<li>Everything you do in R is a function<br />
-</li>
-<li>Everything that exists is an object<br />
-</li>
-<li>We’ve already applied functions to objects - e.g <code>mean(x)</code>: <code>mean()</code> is the function, and <code>x</code> is the object<br />
-</li>
-<li>Functions come from one of three sources:<br />
-+ As part of base R (e.g. <code>mean()</code>)<br />
-+ Written by someone else and loaded as a <code>library()</code><br />
-+ User generated<br />
-</li>
-<li>Functions have two main parts:<br />
-+ formals: the arguments you’re passing to the function<br />
-+ body: what the function does</li>
+<li><p>Different commands can be piped together<br />
+</p></li>
+<li><p>Symbol is <code>%&gt;%</code>, with shortcut ctrl-shift-M. I say ‘and then’<br />
+</p></li>
+<li><p>Start with dataset, then pipe, then statement without dataset<br />
+</p></li>
+<li><p>Highlight from the beginning just to run the first bit</p></li>
+<li><p>First two parts above as an example:</p></li>
 </ul>
-<p><em>A simple function to add one to each element of a vector</em><br />
-<code>my_first_function &lt;- function(vec){</code><br />
-<code>vec + 1</code><br />
-<code>}</code></p>
-<p><em>Apply function to x</em><br />
-<code>my_first_function(vec = x)</code></p>
-<pre><code>## [1] 2 3 4 5</code></pre>
-<p><em>R will use the first argument if you don’t specify this (I recommend using = after the first argument)</em><br />
-<code>my_first_function(x)</code></p>
-<pre><code>## [1] 2 3 4 5</code></pre>
-</div>
-<div id="for-loops" class="section level3">
-<h3>3.2 For loops</h3>
+<pre class="r"><code>rodents &lt;- msleep %&gt;% 
+  filter(order == &quot;Rodentia&quot;) %&gt;% 
+  select(&quot;name&quot;, &quot;vore&quot;, &quot;sleep_total&quot;, &quot;bodywt&quot;) </code></pre>
+<p>Exercise</p>
 <ul>
-<li>For loops loop over each element of a vector<br />
-</li>
-<li>The apply functions and purr package are more efficient but for loops will work</li>
-<li>Can be useful with if and else</li>
+<li>Put all of the commands above into one piped command</li>
 </ul>
-<p><code>for(i in x){</code><br />
-<code>if(i %% 2 == 0){</code><br />
-<code>print(&quot;even&quot;)</code><br />
-<code>}else{</code><br />
-<code>print(&quot;odd&quot;)</code><br />
-<code>}</code><br />
-<code>}</code></p>
-<pre><code>## [1] &quot;odd&quot;
-## [1] &quot;even&quot;
-## [1] &quot;odd&quot;
-## [1] &quot;even&quot;</code></pre>
+<p>Solution</p>
+<pre class="r"><code>rodents &lt;- msleep %&gt;% 
+  filter(order == &quot;Rodentia&quot;) %&gt;% 
+  select(&quot;name&quot;, &quot;vore&quot;, &quot;sleep_total&quot;, &quot;bodywt&quot;) %&gt;% 
+  mutate(vore_long = ifelse(is.na(vore), NA, paste0(vore, &quot;vore&quot;))) %&gt;% 
+  select(- vore) %&gt;% 
+  rename(body_weight = bodywt)  %&gt;% 
+  arrange(body_weight)</code></pre>
+<p>Can also pass functions to piping<br />
+Here we will do a correlation matrix of all numerics in rodents</p>
+<pre class="r"><code>rodents %&gt;% 
+  select_if(is.numeric) %&gt;% 
+  cor()</code></pre>
+<pre><code>##             sleep_total body_weight
+## sleep_total  1.00000000  0.03137767
+## body_weight  0.03137767  1.00000000</code></pre>
 </div>
 </div>
-<div id="part-4-datasets" class="section level1">
-<h1>Part 4: Datasets</h1>
-<div id="datasets-introduction" class="section level3">
-<h3>4.1. Datasets introduction</h3>
+<div id="part-4-group_by" class="section level1">
+<h1>Part 4: group_by</h1>
 <ul>
-<li>Datasets are just collections of vectors<br />
+<li><code>group_by()</code> to group the dataset<br />
 </li>
-<li>Datasets can be viewed in the Environment - click on the name to open them</li>
+<li><code>ungroup()</code> to ungroup</li>
 </ul>
-<p><em>Use an inbuilt dataset, iris</em><br />
-<code>iris &lt;- iris</code></p>
-<p><em>look at column names with names()</em><br />
-<code>names(iris)</code></p>
-<pre><code>## [1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;</code></pre>
-<p><em>look at dimension with dim() - rows then columns</em><br />
-<code>dim(iris)</code></p>
-<pre><code>## [1] 150   5</code></pre>
-<p><em>summary of the whole dataset</em><br />
-<code>summary(iris)</code></p>
-<pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
-##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
-##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
-##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
-##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
-##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
-##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
-##        Species  
-##  setosa    :50  
-##  versicolor:50  
-##  virginica :50  
-##                 
-##                 
-## </code></pre>
+<p><em>dataset of lightest animal in each order </em></p>
+<pre class="r"><code>light &lt;- msleep %&gt;% 
+  arrange(bodywt) %&gt;% 
+  group_by(order) %&gt;% 
+  slice(1)</code></pre>
 </div>
-<div id="subsetting-datasets" class="section level3">
-<h3>4.1. Subsetting datasets</h3>
+<div id="part-5-summarising" class="section level1">
+<h1>Part 5: summarising</h1>
 <ul>
-<li><code>[]</code> can also be used to subset datasets<br />
+<li><code>summarise()</code> to summarise<br />
 </li>
-<li>Need row then column, separated by comma<br />
+<li><code>group_by()</code> often helpful here<br />
 </li>
-<li>Leave blank for all<br />
-</li>
-<li>Can use column names as a vector</li>
+<li>create a summary table of number of obs and mean bodywt for each order*</li>
 </ul>
-<p><em>Second row, first column of iris</em><br />
-<code>iris[2, 1]</code></p>
-<pre><code>## [1] 4.9</code></pre>
-<p><em>Entire first row of iris</em><br />
-<code>iris[1, ]</code></p>
-<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa</code></pre>
-<p><em>All species values</em><br />
-<code>iris[, &quot;Species&quot;]</code></p>
-<pre><code>##   [1] setosa     setosa     setosa     setosa     setosa     setosa    
-##   [7] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [13] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [19] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [25] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [31] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [37] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [43] setosa     setosa     setosa     setosa     setosa     setosa    
-##  [49] setosa     setosa     versicolor versicolor versicolor versicolor
-##  [55] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [61] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [67] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [73] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [79] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [85] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [91] versicolor versicolor versicolor versicolor versicolor versicolor
-##  [97] versicolor versicolor versicolor versicolor virginica  virginica 
-## [103] virginica  virginica  virginica  virginica  virginica  virginica 
-## [109] virginica  virginica  virginica  virginica  virginica  virginica 
-## [115] virginica  virginica  virginica  virginica  virginica  virginica 
-## [121] virginica  virginica  virginica  virginica  virginica  virginica 
-## [127] virginica  virginica  virginica  virginica  virginica  virginica 
-## [133] virginica  virginica  virginica  virginica  virginica  virginica 
-## [139] virginica  virginica  virginica  virginica  virginica  virginica 
-## [145] virginica  virginica  virginica  virginica  virginica  virginica 
-## Levels: setosa versicolor virginica</code></pre>
-<p><em>The first 5 species and Sepal.Width values</em><br />
-<code>iris[1:5, c(&quot;Species&quot;, &quot;Sepal.Width&quot;)]</code></p>
-<pre><code>##   Species Sepal.Width
-## 1  setosa         3.5
-## 2  setosa         3.0
-## 3  setosa         3.2
-## 4  setosa         3.1
-## 5  setosa         3.6</code></pre>
-</div>
-<div id="working-with-a-single-vector" class="section level3">
-<h3>4.2. Working with a single vector</h3>
+<pre class="r"><code>summ_wt &lt;- msleep %&gt;% 
+  group_by(order) %&gt;% 
+  summarise(n = n(), 
+            mean_wt = mean(bodywt))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p>Exercise</p>
 <ul>
-<li>Use <code>$</code> as a shortcut to pull all values of a single column<br />
-</li>
-<li>Can put this into functions of vectors</li>
+<li>Create a summary table showing n() and max weight in each order and vore, ordered by descending max weight (desc())</li>
 </ul>
-<p><em>table values of Species</em><br />
-<code>table(iris$Species)</code></p>
-<pre><code>## 
-##     setosa versicolor  virginica 
-##         50         50         50</code></pre>
-<p><em>summarise values of Sepal Width</em><br />
-<code>summary(iris$Sepal.Width)</code></p>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   2.000   2.800   3.000   3.057   3.300   4.400</code></pre>
-<p><em>create a new column using <code>$</code> and <code>&lt;-</code></em> <code>iris$large_sepal_width &lt;- ifelse(iris$Sepal.Width &gt; 3, 1, 0)</code></p>
+<p>Solution</p>
+<pre class="r"><code>summ_maxwt &lt;- msleep %&gt;% 
+  group_by(order, vore) %&gt;% 
+  summarise(n = n(), 
+            max_wt = max(bodywt)) %&gt;% 
+  arrange(desc(max_wt))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;order&#39; (override with `.groups` argument)</code></pre>
+<p>Useful things:</p>
+<p><em>count n for each order</em></p>
+<pre class="r"><code>count(msleep, vore)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   vore        n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 carni      19
+## 2 herbi      32
+## 3 insecti     5
+## 4 omni       20
+## 5 &lt;NA&gt;        7</code></pre>
+<p><em>count n for each order, with output sorted</em></p>
+<pre class="r"><code>count(msleep, vore, sort = T)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   vore        n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 herbi      32
+## 2 omni       20
+## 3 carni      19
+## 4 &lt;NA&gt;        7
+## 5 insecti     5</code></pre>
 </div>
-</div>
-<div id="part-5-statistical-models" class="section level1">
-<h1>Part 5: Statistical models</h1>
-<div id="linear-models" class="section level3">
-<h3>5.1 Linear models</h3>
+<div id="part-5-joining" class="section level1">
+<h1>Part 5: joining</h1>
 <ul>
-<li>Statistical models tend to follow a very similar pattern
-<ul>
-<li>run the model to create a list (can look at this through Environment)<br />
-</li>
-<li>use <code>summary(model)</code> to see a nice summary<br />
-</li>
-<li>use any other functions you need to</li>
-</ul></li>
+<li><p><code>inner_join</code> keeps only matchkeys found in both datasets</p></li>
+<li><p><code>left_join</code> keeps everything in the first dataset and merges on where possible<br />
+</p></li>
+<li><p>use <code>by =</code> to specify mergekey<br />
+</p></li>
+<li><p>variables in both datasets not in <code>by</code> will automatically have <code>.x</code> and <code>.y</code> as suffixes, can change this if needed<br />
+</p></li>
+<li><p>don’t get a report like Stata, need to do checks by hand</p></li>
+<li><p>merge mean weights onto msleep by order</p></li>
 </ul>
-<p><em>Use <code>lm()</code> to create the model</em><br />
-<code>m1 &lt;- lm(Sepal.Width ~ Species, data = iris)</code></p>
-<p><em>Use <code>summary()</code> to look at summary</em><br />
-<code>summary(m1)</code></p>
-<pre><code>## 
-## Call:
-## lm(formula = Sepal.Width ~ Species, data = iris)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -1.128 -0.228  0.026  0.226  0.972 
-## 
-## Coefficients:
-##                   Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        3.42800    0.04804  71.359  &lt; 2e-16 ***
-## Speciesversicolor -0.65800    0.06794  -9.685  &lt; 2e-16 ***
-## Speciesvirginica  -0.45400    0.06794  -6.683 4.54e-10 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 0.3397 on 147 degrees of freedom
-## Multiple R-squared:  0.4008, Adjusted R-squared:  0.3926 
-## F-statistic: 49.16 on 2 and 147 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p><em>Can use <code>anova()</code> to test main effects</em><br />
-<code>anova(m1)</code></p>
-<pre><code>## Analysis of Variance Table
-## 
-## Response: Sepal.Width
-##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-## Species     2 11.345  5.6725   49.16 &lt; 2.2e-16 ***
-## Residuals 147 16.962  0.1154                      
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>msleep_wt &lt;- msleep %&gt;% 
+  inner_join(summ_wt, by = &quot;order&quot;)</code></pre>
+<ul>
+<li>use <code>assertthat</code> package to check number of rows in msleep and msleep_wt is the same</li>
+<li>need to have assertthat installed<br />
+</li>
+<li>package and <code>::</code> lets you use package without</li>
+</ul>
+<pre class="r"><code>assertthat::are_equal(nrow(msleep), nrow(msleep_wt))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
-<div id="generalised-linear-models" class="section level3">
-<h3>5.1 Generalised linear models</h3>
-<p><em>Use <code>glm()</code> for generalised linear model</em><br />
-<code>m2 &lt;- glm(large_sepal_width ~ Species, data = iris, family = &quot;binomial&quot;)</code></p>
-<p><em>Use <code>summary()</code> to look at summary</em><br />
-<code>summary(m2)</code></p>
-<pre><code>## 
-## Call:
-## glm(formula = large_sepal_width ~ Species, family = &quot;binomial&quot;, 
-##     data = iris)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.9145  -0.9116  -0.5905   0.5905   1.9145  
-## 
-## Coefficients:
-##                   Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)         1.6582     0.3858   4.299 1.72e-05 ***
-## Speciesversicolor  -3.3165     0.5455  -6.079 1.21e-09 ***
-## Speciesvirginica   -2.3215     0.4878  -4.759 1.94e-06 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 206.23  on 149  degrees of freedom
-## Residual deviance: 152.04  on 147  degrees of freedom
-## AIC: 158.04
-## 
-## Number of Fisher Scoring iterations: 4</code></pre>
-<p><em>Can use <code>anova()</code> to test main effects</em><br />
-<code>anova(m2)</code></p>
-<pre><code>## Analysis of Deviance Table
-## 
-## Model: binomial, link: logit
-## 
-## Response: large_sepal_width
-## 
-## Terms added sequentially (first to last)
-## 
-## 
-##         Df Deviance Resid. Df Resid. Dev
-## NULL                      149     206.23
-## Species  2   54.197       147     152.04</code></pre>
+<div id="part-6-pivoting" class="section level1">
+<h1>Part 6: pivoting</h1>
+<ul>
+<li><code>pivot_longer()</code> lets you go from wide to long<br />
+</li>
+<li><code>pivot_wider()</code> lets you go from long to wide<br />
+</li>
+<li>The approach in R is generally longer than in Stata<br />
+</li>
+<li>Plotting sometimes requires really long datasets<br />
+*for each species in rodents, create a column that is ‘metric’ and one that is ‘value’ for body_weight and sleep_total</li>
+</ul>
+<pre class="r"><code>rodents_long &lt;- rodents %&gt;% 
+  pivot_longer(cols = c(sleep_total, body_weight), 
+              names_to = &quot;metric&quot;, 
+              values_to = &quot;value&quot;)
+
+
+rodents_wide &lt;- rodents_long %&gt;% 
+  pivot_wider(names_from = metric, values_from = value)</code></pre>
+<ul>
+<li>to pivot long on multiple variables (x1, x2, y1, y2), you need to pivot really long, separate out the variable names, then pivot wide<br />
+</li>
+<li>in Stata: reshape long x y, i(id) j(t) string</li>
+</ul>
+<pre class="r"><code># example 1 - no separation between x &amp; a
+df &lt;- tribble(~id,~xa,~xb,~ya,~yb,
+              1,1,3,6,8,
+              2,2,4,7,9)
+
+df %&gt;%
+  # make all variable and timepoint columns long
+  pivot_longer(cols = -id) %&gt;%
+  # pull t out of name, and make name just the variable 
+  mutate(
+    t = substr(name, 2, 2),
+    name = substr(name, 1, 1) 
+  ) %&gt;% 
+  # pivot wider on id and timepoint, putting in variables
+  pivot_wider(id_cols = c(id, t))</code></pre>
+<pre><code>## # A tibble: 4 x 4
+##      id t         x     y
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 a         1     6
+## 2     1 b         3     8
+## 3     2 a         2     7
+## 4     2 b         4     9</code></pre>
+<pre class="r"><code># example 2 - x and a separated by _
+df2 &lt;- tribble(~id,~x_a,~x_b,~y_a,~y_b,
+               1,1,3,6,8,
+               2,2,4,7,9)
+
+df2 %&gt;%
+  # make all variable and timepoint columns long
+  pivot_longer(cols = -id, names_to = c(&quot;name&quot;, &quot;t&quot;), names_sep = &quot;_&quot;) %&gt;%
+  # pivot wider on id and timepoint, putting in variables
+  pivot_wider(id_cols = c(id, t))</code></pre>
+<pre><code>## # A tibble: 4 x 4
+##      id t         x     y
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 a         1     6
+## 2     1 b         3     8
+## 3     2 a         2     7
+## 4     2 b         4     9</code></pre>
 </div>
+<div id="part-7-reading-in-writing-out-data" class="section level1">
+<h1>Part 7: reading in &amp; writing out data</h1>
+<ul>
+<li>use tidyverse <code>read_csv</code> to read in csvs<br />
+</li>
+<li>use readxl <code>read_xlsx</code> to read in from excel<br />
+</li>
+<li>use haven package <code>read_dta</code> to read in Stata files<br />
+</li>
+<li>use tidyverse <code>write_csv</code> to write files out as csvs</li>
+</ul>
+<p>Potentially useful function for tidying up files that have been read in from Stata</p>
+<pre class="r"><code>fix_stata &lt;- function(df){
+  df %&gt;% 
+    # get rid of all variable labels
+    zap_label() %&gt;% 
+    # make labelled vars into factors with labels as values
+    map_if(is.labelled, ~as_factor(.x, levels = &quot;default&quot;)) %&gt;% 
+    # make factors into characters
+    map_if(is.factor, as.character) %&gt;% 
+    # make empty strings in characters NA
+    map_if(is.character, zap_empty) %&gt;% 
+    # return a tibble
+    as_tibble()
+  
+}</code></pre>
 </div>
-<div id="part-6-further-resources" class="section level1">
-<h1>Part 6: Further resources</h1>
+<div id="part-8-further-resources" class="section level1">
+<h1>Part 8: Further resources</h1>
 <ul>
 <li>The <a href="https://r4ds.had.co.nz/">R for Data Science</a> book is great and available freely online<br />
 </li>
 <li>Useful parts linked to today’s section are:
 <ul>
-<li>Installing R, R Studio and packages: Section 1.4.1<br />
+<li>Tibbles: Section 10<br />
 </li>
-<li>Workflow basics (&lt;- and functions): Section 4<br />
+<li>Working directories &amp; projects: Section 4<br />
 </li>
-<li>Using scripts (ctrl-enter): Section 6<br />
+<li>Manipulating data: Section 5</li>
+<li>Pipe: Section 5.6.1 (more info in section 18)</li>
+<li>Merging: Section 13<br />
 </li>
-<li>Vectors: Section 20<br />
+<li>Pivoting: Sections 12.3 &amp; 12.5</li>
+</ul></li>
+<li>Other sections that we didn’t have time to cover are:
+<ul>
+<li>String/character manipulation: Section 14<br />
 </li>
-<li>Functions: Section 19<br />
-</li>
-<li>Loops and mapping: Section 21</li>
+<li>Dates &amp; times: Section 16</li>
 </ul></li>
 </ul>
 </div>
-<div id="part-7-upcoming" class="section level1">
-<h1>Part 7: Upcoming</h1>
+<div id="part-9-upcoming" class="section level1">
+<h1>Part 9: Upcoming</h1>
 <ul>
-<li>Session 2: Manipulating datasets using dplyr<br />
-</li>
 <li>Session 3: Making graphs with ggplot2</li>
 </ul>
 </div>
